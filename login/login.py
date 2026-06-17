@@ -35,6 +35,10 @@ def login():
             page.keyboard.type(otp)
             page.get_by_text("Verify & Sign In").click()
             page.wait_for_timeout(5000)
+            
+            # Save storage state
+            page.context.storage_state(path="login/state.json")
+            print("Login state saved to state.json")
         else:
             print("Failed to receive OTP.")
         
