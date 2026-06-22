@@ -7,7 +7,7 @@ from fetchOTP import fetch_latest_otp
 load_dotenv()
 
 def login():
-    email_address = os.environ.get("EMAIL_ADDRESS", "piyush@satorixr.com")
+    email_address = os.environ.get("EMAIL_ADDRESS")
     email_password = os.environ.get("EMAIL_PASSWORD")
     
     with sync_playwright() as p:
