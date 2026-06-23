@@ -22,6 +22,11 @@ This tool is a specialized crawling and page-capturing system designed to map a 
 │   ├── login.py            # Playwright script to authenticate with OTP
 │   ├── fetchOTP.py         # IMAP client script to fetch login email code
 │   └── state.json          # Authenticated session storage state (generated)
+│   └── fetchOTP.py
+│   └── first_test.py
+│   └──genJSON.py
+│   └──generateOTP.py
+│   └──README.md
 ├── src/
 │   ├── __init__.py         # Package indicator
 │   ├── capture.py          # Viewport extraction and JSON generator
@@ -83,7 +88,7 @@ EMAIL_PASSWORD="your_app_password_here"
 Run the authentication script to obtain `state.json`. It will wait for the OTP to arrive in your mailbox, fill it, sign in, and persist the state:
 
 ```powershell
-python login/login.py
+python v0/login.py
 ```
 
 ### 2. Run Site Crawler (Recommended)

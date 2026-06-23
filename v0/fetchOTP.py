@@ -70,8 +70,8 @@ def fetch_latest_otp(email_address, password, imap_server="imap.gmail.com"):
             pass
 
 if __name__ == "__main__":
-    EMAIL_ADDRESS = os.environ.get("EMAIL_ADDRESS", "piyush@satorixr.com")
-    EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD", "your_app_password_here") 
+    EMAIL_ADDRESS = os.environ.get("EMAIL_ADDRESS")
+    EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD") 
     
     print("Fetching OTP...")
     otp = fetch_latest_otp(EMAIL_ADDRESS, EMAIL_PASSWORD)
