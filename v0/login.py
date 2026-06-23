@@ -7,7 +7,7 @@ from fetchOTP import fetch_latest_otp
 load_dotenv()
 
 def login():
-    email_address = os.environ.get("EMAIL_ADDRESS")
+    email_address = os.environ.get("EMAIL_ADDRESS", "piyush@satorixr.com")
     email_password = os.environ.get("EMAIL_PASSWORD")
     
     with sync_playwright() as p:
@@ -37,7 +37,7 @@ def login():
             page.wait_for_timeout(5000)
             
             # Save storage state
-            page.context.storage_state(path="login/state.json")
+            page.context.storage_state(path="v0/state.json")
             print("Login state saved to state.json")
         else:
             print("Failed to receive OTP.")

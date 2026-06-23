@@ -141,62 +141,113 @@ def capture_page_data(page, url, output_dir, viewport_width=1280, viewport_heigh
             return `page.locator('${getCssSelector(el)}')`;
         }
 
-        const candidates = document.querySelectorAll(
+        const interactiveCandidates = document.querySelectorAll(
             'a, button, input, textarea, select, [role="button"], [role="link"], [role="checkbox"], [role="radio"], [role="tab"], [role="menuitem"], [tabindex]:not([tabindex="-1"])'
         );
-        
+
+        const textCandidates = document.querySelectorAll(
+            'h1, h2, h3, h4, h5, h6, p, span, label, li, td, th, strong, em, small, div'
+        );
+
         const list = [];
         let idCounter = 0;
+        const seen = new Set();
 
-        candidates.forEach((el) => {
-            const rect = el.getBoundingClientRect();
-            
-            // Visibility Checks
+        function getBounds(rect) {
+            return [
+                Math.round(rect.x),
+                Math.round(rect.y),
+                Math.round(rect.width),
+                Math.round(rect.height)
+            ];
+        }
+
+        function isVisibleInViewport(el, rect) {
             const style = window.getComputedStyle(el);
             const isStyleVisible = style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
             const hasDimensions = rect.width > 0 && rect.height > 0;
-            
-            // Check if inside current viewport
-            const isInViewport = rect.bottom >= 0 && rect.right >= 0 && 
+            const isInViewport = rect.bottom >= 0 && rect.right >= 0 &&
                                  rect.top <= window.innerHeight && rect.left <= window.innerWidth;
+            return isStyleVisible && hasDimensions && isInViewport;
+        }
 
-            if (isStyleVisible && hasDimensions && isInViewport) {
-                const tag = el.tagName.toLowerCase();
-                const text = (el.innerText || el.value || el.getAttribute('aria-label') || '').trim();
-                const labelText = getLabelText(el);
+        function pushElement(el, kind, locator) {
+            const rect = el.getBoundingClientRect();
+            if (!isVisibleInViewport(el, rect)) return;
 
-                const elementData = {
-                    id: idCounter++,
-                    tag: tag,
-                    text: text.substring(0, 100),
-                    label: labelText,
-                    placeholder: el.getAttribute('placeholder') || '',
-                    type: el.getAttribute('type') || '',
-                    attributes: {
-                        id: el.id || '',
-                        name: el.getAttribute('name') || '',
-                        class: el.getAttribute('class') || '',
-                        href: el.getAttribute('href') || '',
-                        role: el.getAttribute('role') || ''
-                    },
-                    states: {
-                        disabled: el.disabled || el.getAttribute('aria-disabled') === 'true',
-                        readonly: el.readOnly || el.getAttribute('aria-readonly') === 'true',
-                        checked: el.checked || el.getAttribute('aria-checked') === 'true',
-                        required: el.required || el.getAttribute('aria-required') === 'true'
-                    },
-                    bounds: [
-                        Math.round(rect.x),
-                        Math.round(rect.y),
-                        Math.round(rect.width),
-                        Math.round(rect.height)
-                    ],
-                    selector: getCssSelector(el),
-                    playwright_locator: getPlaywrightLocator(el, tag, text, labelText)
-                };
+            const tag = el.tagName.toLowerCase();
+            const text = (el.innerText || el.value || el.getAttribute('aria-label') || '').trim();
+            const labelText = getLabelText(el);
+            const bounds = getBounds(rect);
 
-                list.push(elementData);
+            const dedupeKey = `${kind}|${tag}|${bounds.join(',')}|${text.substring(0, 120)}`;
+            if (seen.has(dedupeKey)) return;
+            seen.add(dedupeKey);
+
+            list.push({
+                id: idCounter++,
+                kind: kind,
+                tag: tag,
+                text: text.substring(0, 100),
+                label: labelText,
+                placeholder: el.getAttribute('placeholder') || '',
+                type: el.getAttribute('type') || '',
+                attributes: {
+                    id: el.id || '',
+                    name: el.getAttribute('name') || '',
+                    class: el.getAttribute('class') || '',
+                    href: el.getAttribute('href') || '',
+                    role: el.getAttribute('role') || ''
+                },
+                states: {
+                    disabled: el.disabled || el.getAttribute('aria-disabled') === 'true',
+                    readonly: el.readOnly || el.getAttribute('aria-readonly') === 'true',
+                    checked: el.checked || el.getAttribute('aria-checked') === 'true',
+                    required: el.required || el.getAttribute('aria-required') === 'true'
+                },
+                bounds: bounds,
+                selector: getCssSelector(el),
+                playwright_locator: locator
+            });
+        }
+
+        interactiveCandidates.forEach((el) => {
+            const tag = el.tagName.toLowerCase();
+            const text = (el.innerText || el.value || el.getAttribute('aria-label') || '').trim();
+            const labelText = getLabelText(el);
+            const locator = getPlaywrightLocator(el, tag, text, labelText);
+            pushElement(el, 'interactive', locator);
+        });
+
+        textCandidates.forEach((el) => {
+            // Skip text nodes that are inside interactive controls; they are already captured.
+            if (el.closest('a, button, input, textarea, select, [role="button"], [role="link"], [role="checkbox"], [role="radio"], [role="tab"], [role="menuitem"]')) {
+                return;
             }
+
+            const text = (el.innerText || '').replace(/\s+/g, ' ').trim();
+            if (!text) return;
+
+            // Keep only leaf-level readable text blocks to reduce noisy container captures.
+            const childElements = Array.from(el.children || []);
+            const hasReadableChildText = childElements.some((child) => {
+                if (!child || child.nodeType !== Node.ELEMENT_NODE) return false;
+                const childText = (child.innerText || '').replace(/\s+/g, ' ').trim();
+                if (!childText) return false;
+                const childRect = child.getBoundingClientRect();
+                const childStyle = window.getComputedStyle(child);
+                const childVisible = childStyle.display !== 'none' && childStyle.visibility !== 'hidden' && childStyle.opacity !== '0';
+                return childVisible && childRect.width > 0 && childRect.height > 0;
+            });
+            if (hasReadableChildText) return;
+
+            // Avoid giant layout wrappers and non-human content blocks.
+            const rect = el.getBoundingClientRect();
+            const maxReasonableArea = window.innerWidth * window.innerHeight * 0.6;
+            if (rect.width * rect.height > maxReasonableArea) return;
+            if (text.length > 300) return;
+
+            pushElement(el, 'text', `page.locator('${getCssSelector(el)}')`);
         });
 
         return list;
