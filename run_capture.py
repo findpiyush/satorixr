@@ -11,6 +11,8 @@ def main():
     parser.add_argument("--state", default="login/state.json", help="Path to state.json login storage file")
     parser.add_argument("--width", type=int, default=1280, help="Viewport width (default: 1280)")
     parser.add_argument("--height", type=int, default=800, help="Viewport height (default: 800)")
+    parser.add_argument("--headless", action="store_true", default=True, help="Run browser in headless mode (default: true)")
+    parser.add_argument("--no-headless", dest="headless", action="store_false", help="Run browser with UI visible")
     parser.add_argument("--crawl", action="store_true", help="Enable recursive crawling mode of the domain starting from URL")
     parser.add_argument("--max-pages", type=int, default=15, help="Maximum number of pages to crawl (default: 15)")
 
@@ -53,7 +55,8 @@ def main():
                 state_path=args.state,
                 max_pages=args.max_pages,
                 viewport_width=args.width,
-                viewport_height=args.height
+                viewport_height=args.height,
+                headless=args.headless
             )
             print("=" * 60)
             print("Crawl completed successfully!")
@@ -67,7 +70,8 @@ def main():
                 output_dir=output_dir,
                 state_path=args.state,
                 viewport_width=args.width,
-                viewport_height=args.height
+                viewport_height=args.height,
+                headless=args.headless
             )
             print("=" * 60)
             print("Capture completed successfully!")

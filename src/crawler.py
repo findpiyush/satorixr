@@ -24,7 +24,7 @@ def get_folder_name(url, base_url):
         
     return folder_name
 
-def crawl_site(start_url, output_dir="captures", state_path="login/state.json", max_pages=15, viewport_width=1280, viewport_height=800):
+def crawl_site(start_url, output_dir="captures", state_path="login/state.json", max_pages=15, viewport_width=1280, viewport_height=800, headless=True):
     """
     Runs a recursive breadth-first crawl starting from start_url.
     Outputs individual page captures in captures/<folder_name> and a global captures/site_graph.json.
@@ -48,7 +48,7 @@ def crawl_site(start_url, output_dir="captures", state_path="login/state.json", 
     folder_mapping = {} # Maps full URL -> folder name
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(headless=headless)
         
         context_args = {
             "viewport": {"width": viewport_width, "height": viewport_height}

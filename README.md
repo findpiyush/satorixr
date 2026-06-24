@@ -108,10 +108,8 @@ python run_capture.py --url https://try.satorixr.com/home --crawl --max-pages 10
 To capture only a specific page:
 
 ```powershell
-python run_capture.py --url https://try.satorixr.com/products --name products
+python3 run_capture.py --url "https://try.satorixr.com/products" --no-headless --state v0/state.json
 ```
-
-- `--name`: Explicit name for the output folder (defaults to URL path segment).
 
 ---
 

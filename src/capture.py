@@ -20,11 +20,25 @@ def capture_page_data(page, url, output_dir, viewport_width=1280, viewport_heigh
     print(f"Navigating to: {url} ...")
     try:
         page.goto(url)
-        page.wait_for_load_state("networkidle", timeout=10000)
+        page.wait_for_load_state("networkidle", timeout=20000)
     except Exception as e:
         print(f"Navigation/load state warning for {url}: {e}")
-        
-    page.wait_for_timeout(2000) # extra buffer for single page app rendering
+
+    # Give page JavaScript additional time to render dynamic or lazy-loaded UI.
+    page.wait_for_timeout(3000)
+    try:
+        page.mouse.move(viewport_width / 2, viewport_height / 2)
+        page.wait_for_timeout(500)
+    except Exception:
+        pass
+
+    try:
+        page.wait_for_function(
+            "() => window.document.readyState === 'complete' || window.document.readyState === 'interactive'",
+            timeout=10000
+        )
+    except Exception:
+        pass
 
     page_title = page.title()
     current_url = page.url
@@ -225,14 +239,14 @@ def capture_page_data(page, url, output_dir, viewport_width=1280, viewport_heigh
                 return;
             }
 
-            const text = (el.innerText || '').replace(/\s+/g, ' ').trim();
+            const text = (el.innerText || '').replace(/\\s+/g, ' ').trim();
             if (!text) return;
 
             // Keep only leaf-level readable text blocks to reduce noisy container captures.
             const childElements = Array.from(el.children || []);
             const hasReadableChildText = childElements.some((child) => {
                 if (!child || child.nodeType !== Node.ELEMENT_NODE) return false;
-                const childText = (child.innerText || '').replace(/\s+/g, ' ').trim();
+                const childText = (child.innerText || '').replace(/\\s+/g, ' ').trim();
                 if (!childText) return false;
                 const childRect = child.getBoundingClientRect();
                 const childStyle = window.getComputedStyle(child);
@@ -291,12 +305,12 @@ def capture_page_data(page, url, output_dir, viewport_width=1280, viewport_heigh
 
     return page_info, elements
 
-def capture_page(url, output_dir, state_path="login/state.json", viewport_width=1280, viewport_height=800):
+def capture_page(url, output_dir, state_path="login/state.json", viewport_width=1280, viewport_height=800, headless=True):
     """
     Standalone runner (legacy compatibility). Runs single page capture in its own browser lifecycle.
     """
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(headless=headless)
         context_args = {
             "viewport": {"width": viewport_width, "height": viewport_height}
         }

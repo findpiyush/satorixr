@@ -31,8 +31,13 @@ def login():
             print(f"OTP received: {otp}")
 
             page.get_by_text("Enter the verification code").wait_for(state="visible")
-            page.locator("input").first.focus()
-            page.keyboard.type(otp)
+            otp_input = page.locator(
+                "input[autocomplete='one-time-code'], input[placeholder*='code'], input[aria-label*='code'], input[type='text']:visible"
+            ).first
+            if otp_input.count() == 0:
+                otp_input = page.locator("input:visible").first
+
+            otp_input.fill(otp)
             page.get_by_text("Verify & Sign In").click()
             page.wait_for_timeout(5000)
             
