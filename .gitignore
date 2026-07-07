@@ -25,4 +25,6 @@ htmlcov/
 
 # Application outputs and run artifacts
 captures/
-ui_markers.json
+ui_markers.json
+*w.txt
+*Y.md

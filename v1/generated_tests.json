@@ -1,0 +1,647 @@
+{
+  "metadata": {
+    "generated_tool": "Automated Test Case Generator",
+    "version": "1.0"
+  },
+  "test_suites": [
+    {
+      "function": "load_test_cases",
+      "docstring": "Load test cases from JSON file.",
+      "arguments": [
+        "self"
+      ],
+      "test_cases": [
+        {
+          "name": "Generic test case",
+          "inputs": {},
+          "note": "Add specific test inputs based on function purpose",
+          "category": "placeholder"
+        }
+      ]
+    },
+    {
+      "function": "run_tests",
+      "docstring": "Execute all test cases.",
+      "arguments": [
+        "self"
+      ],
+      "test_cases": [
+        {
+          "name": "Generic test case",
+          "inputs": {},
+          "note": "Add specific test inputs based on function purpose",
+          "category": "placeholder"
+        }
+      ]
+    },
+    {
+      "function": "print_summary",
+      "docstring": "Print test execution summary.",
+      "arguments": [
+        "self"
+      ],
+      "test_cases": [
+        {
+          "name": "Generic test case",
+          "inputs": {},
+          "note": "Add specific test inputs based on function purpose",
+          "category": "placeholder"
+        }
+      ]
+    },
+    {
+      "function": "add",
+      "docstring": "Add two numbers.\n\nArgs:\n    a: First number\n    b: Second number\n\nReturns:\n    Sum of a and b",
+      "arguments": [
+        "a",
+        "b"
+      ],
+      "test_cases": [
+        {
+          "name": "Basic addition",
+          "inputs": {
+            "a": 5,
+            "b": 3
+          },
+          "expected_output": 8,
+          "category": "normal"
+        },
+        {
+          "name": "Adding negative numbers",
+          "inputs": {
+            "a": -5,
+            "b": -3
+          },
+          "expected_output": -8,
+          "category": "edge_case"
+        },
+        {
+          "name": "Adding zero",
+          "inputs": {
+            "a": 0,
+            "b": 5
+          },
+          "expected_output": 5,
+          "category": "boundary"
+        },
+        {
+          "name": "Adding floats",
+          "inputs": {
+            "a": 2.5,
+            "b": 3.7
+          },
+          "expected_output": 6.2,
+          "category": "normal"
+        }
+      ]
+    },
+    {
+      "function": "subtract",
+      "docstring": "Subtract two numbers.\n\nArgs:\n    a: First number\n    b: Second number (subtracted from a)\n\nReturns:\n    Difference of a and b",
+      "arguments": [
+        "a",
+        "b"
+      ],
+      "test_cases": [
+        {
+          "name": "Basic subtraction",
+          "inputs": {
+            "a": 10,
+            "b": 3
+          },
+          "expected_output": 7,
+          "category": "normal"
+        },
+        {
+          "name": "Subtracting negative",
+          "inputs": {
+            "a": 5,
+            "b": -3
+          },
+          "expected_output": 8,
+          "category": "edge_case"
+        },
+        {
+          "name": "Result in negative",
+          "inputs": {
+            "a": 3,
+            "b": 10
+          },
+          "expected_output": -7,
+          "category": "edge_case"
+        },
+        {
+          "name": "Subtracting zero",
+          "inputs": {
+            "a": 5,
+            "b": 0
+          },
+          "expected_output": 5,
+          "category": "boundary"
+        }
+      ]
+    },
+    {
+      "function": "multiply",
+      "docstring": "Multiply two numbers.\n\nArgs:\n    a: First number\n    b: Second number\n\nReturns:\n    Product of a and b",
+      "arguments": [
+        "a",
+        "b"
+      ],
+      "test_cases": [
+        {
+          "name": "Basic multiplication",
+          "inputs": {
+            "a": 4,
+            "b": 5
+          },
+          "expected_output": 20,
+          "category": "normal"
+        },
+        {
+          "name": "Multiply by zero",
+          "inputs": {
+            "a": 5,
+            "b": 0
+          },
+          "expected_output": 0,
+          "category": "boundary"
+        },
+        {
+          "name": "Multiply negative numbers",
+          "inputs": {
+            "a": -4,
+            "b": -5
+          },
+          "expected_output": 20,
+          "category": "edge_case"
+        },
+        {
+          "name": "Multiply positive and negative",
+          "inputs": {
+            "a": 4,
+            "b": -5
+          },
+          "expected_output": -20,
+          "category": "edge_case"
+        }
+      ]
+    },
+    {
+      "function": "divide",
+      "docstring": "Divide two numbers.\n\nArgs:\n    a: Dividend\n    b: Divisor\n\nReturns:\n    Result of a divided by b\n\nRaises:\n    ValueError: If b is zero",
+      "arguments": [
+        "a",
+        "b"
+      ],
+      "test_cases": [
+        {
+          "name": "Basic division",
+          "inputs": {
+            "a": 20,
+            "b": 4
+          },
+          "expected_output": 5,
+          "category": "normal"
+        },
+        {
+          "name": "Division resulting in float",
+          "inputs": {
+            "a": 7,
+            "b": 2
+          },
+          "expected_output": 3.5,
+          "category": "normal"
+        },
+        {
+          "name": "Divide by zero (should raise error)",
+          "inputs": {
+            "a": 5,
+            "b": 0
+          },
+          "expected_error": "ValueError",
+          "category": "error_case"
+        },
+        {
+          "name": "Negative division",
+          "inputs": {
+            "a": -20,
+            "b": 4
+          },
+          "expected_output": -5,
+          "category": "edge_case"
+        }
+      ]
+    },
+    {
+      "function": "power",
+      "docstring": "Raise base to the power of exponent.\n\nArgs:\n    base: Base number\n    exponent: Power\n\nReturns:\n    base raised to exponent",
+      "arguments": [
+        "base",
+        "exponent"
+      ],
+      "test_cases": [
+        {
+          "name": "Basic exponentiation",
+          "inputs": {
+            "base": 2,
+            "exponent": 3
+          },
+          "expected_output": 8,
+          "category": "normal"
+        },
+        {
+          "name": "Power of zero",
+          "inputs": {
+            "base": 5,
+            "exponent": 0
+          },
+          "expected_output": 1,
+          "category": "boundary"
+        },
+        {
+          "name": "Zero to power",
+          "inputs": {
+            "base": 0,
+            "exponent": 3
+          },
+          "expected_output": 0,
+          "category": "boundary"
+        },
+        {
+          "name": "Negative exponent",
+          "inputs": {
+            "base": 2,
+            "exponent": -2
+          },
+          "expected_output": 0.25,
+          "category": "edge_case"
+        }
+      ]
+    },
+    {
+      "function": "modulo",
+      "docstring": "Get remainder of division.\n\nArgs:\n    a: Dividend\n    b: Divisor\n\nReturns:\n    Remainder of a divided by b\n\nRaises:\n    ValueError: If b is zero",
+      "arguments": [
+        "a",
+        "b"
+      ],
+      "test_cases": [
+        {
+          "name": "Basic modulo",
+          "inputs": {
+            "a": 10,
+            "b": 3
+          },
+          "expected_output": 1,
+          "category": "normal"
+        },
+        {
+          "name": "Modulo by zero (should raise error)",
+          "inputs": {
+            "a": 5,
+            "b": 0
+          },
+          "expected_error": "ValueError",
+          "category": "error_case"
+        },
+        {
+          "name": "Even division",
+          "inputs": {
+            "a": 10,
+            "b": 5
+          },
+          "expected_output": 0,
+          "category": "boundary"
+        }
+      ]
+    },
+    {
+      "function": "calculate_average",
+      "docstring": "Calculate average of a list of numbers.\n\nArgs:\n    numbers: List of numbers\n\nReturns:\n    Average of the numbers\n\nRaises:\n    ValueError: If list is empty",
+      "arguments": [
+        "numbers"
+      ],
+      "test_cases": [
+        {
+          "name": "Average of positive numbers",
+          "inputs": {
+            "numbers": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "expected_output": 3,
+          "category": "normal"
+        },
+        {
+          "name": "Average with single element",
+          "inputs": {
+            "numbers": [
+              5
+            ]
+          },
+          "expected_output": 5,
+          "category": "boundary"
+        },
+        {
+          "name": "Average with negative numbers",
+          "inputs": {
+            "numbers": [
+              -5,
+              -3,
+              -1
+            ]
+          },
+          "expected_output": -3,
+          "category": "edge_case"
+        },
+        {
+          "name": "Empty list (should raise error)",
+          "inputs": {
+            "numbers": []
+          },
+          "expected_error": "ValueError",
+          "category": "error_case"
+        }
+      ]
+    },
+    {
+      "function": "factorial",
+      "docstring": "Calculate factorial of n.\n\nArgs:\n    n: Non-negative integer\n\nReturns:\n    Factorial of n\n\nRaises:\n    ValueError: If n is negative\n    TypeError: If n is not an integer",
+      "arguments": [
+        "n"
+      ],
+      "test_cases": [
+        {
+          "name": "Factorial of 5",
+          "inputs": {
+            "n": 5
+          },
+          "expected_output": 120,
+          "category": "normal"
+        },
+        {
+          "name": "Factorial of 0",
+          "inputs": {
+            "n": 0
+          },
+          "expected_output": 1,
+          "category": "boundary"
+        },
+        {
+          "name": "Factorial of 1",
+          "inputs": {
+            "n": 1
+          },
+          "expected_output": 1,
+          "category": "boundary"
+        },
+        {
+          "name": "Negative factorial (should raise error)",
+          "inputs": {
+            "n": -5
+          },
+          "expected_error": "ValueError",
+          "category": "error_case"
+        },
+        {
+          "name": "Non-integer input (should raise error)",
+          "inputs": {
+            "n": 5.5
+          },
+          "expected_error": "TypeError",
+          "category": "error_case"
+        }
+      ]
+    },
+    {
+      "function": "is_prime",
+      "docstring": "Check if a number is prime.\n\nArgs:\n    n: Integer to check\n\nReturns:\n    True if n is prime, False otherwise",
+      "arguments": [
+        "n"
+      ],
+      "test_cases": [
+        {
+          "name": "Prime number",
+          "inputs": {
+            "n": 7
+          },
+          "expected_output": true,
+          "category": "normal"
+        },
+        {
+          "name": "Non-prime number",
+          "inputs": {
+            "n": 4
+          },
+          "expected_output": false,
+          "category": "normal"
+        },
+        {
+          "name": "Number 2 (smallest prime)",
+          "inputs": {
+            "n": 2
+          },
+          "expected_output": true,
+          "category": "boundary"
+        },
+        {
+          "name": "Number 1 (not prime)",
+          "inputs": {
+            "n": 1
+          },
+          "expected_output": false,
+          "category": "boundary"
+        },
+        {
+          "name": "Negative number",
+          "inputs": {
+            "n": -5
+          },
+          "expected_output": false,
+          "category": "edge_case"
+        },
+        {
+          "name": "Zero",
+          "inputs": {
+            "n": 0
+          },
+          "expected_output": false,
+          "category": "boundary"
+        }
+      ]
+    },
+    {
+      "function": "add_to_history",
+      "docstring": "Add operation to history.\n\nArgs:\n    operation: Operation name\n    operands: List of operands\n    result: Result of operation",
+      "arguments": [
+        "self",
+        "operation",
+        "operands",
+        "result"
+      ],
+      "test_cases": [
+        {
+          "name": "Basic addition",
+          "inputs": {
+            "a": 5,
+            "b": 3
+          },
+          "expected_output": 8,
+          "category": "normal"
+        },
+        {
+          "name": "Adding negative numbers",
+          "inputs": {
+            "a": -5,
+            "b": -3
+          },
+          "expected_output": -8,
+          "category": "edge_case"
+        },
+        {
+          "name": "Adding zero",
+          "inputs": {
+            "a": 0,
+            "b": 5
+          },
+          "expected_output": 5,
+          "category": "boundary"
+        },
+        {
+          "name": "Adding floats",
+          "inputs": {
+            "a": 2.5,
+            "b": 3.7
+          },
+          "expected_output": 6.2,
+          "category": "normal"
+        }
+      ]
+    },
+    {
+      "function": "get_history",
+      "docstring": "Return the operation history.",
+      "arguments": [
+        "self"
+      ],
+      "test_cases": [
+        {
+          "name": "Generic test case",
+          "inputs": {},
+          "note": "Add specific test inputs based on function purpose",
+          "category": "placeholder"
+        }
+      ]
+    },
+    {
+      "function": "clear_history",
+      "docstring": "Clear the operation history.",
+      "arguments": [
+        "self"
+      ],
+      "test_cases": [
+        {
+          "name": "Generic test case",
+          "inputs": {},
+          "note": "Add specific test inputs based on function purpose",
+          "category": "placeholder"
+        }
+      ]
+    },
+    {
+      "class": "TestRunner",
+      "docstring": "Execute generated test cases against actual functions.",
+      "methods": [
+        {
+          "method": "load_test_cases",
+          "docstring": "Load test cases from JSON file.",
+          "test_cases": [
+            {
+              "name": "Test load_test_cases",
+              "setup": "Create instance of TestRunner",
+              "action": "Call load_test_cases",
+              "expected": "Verify behavior",
+              "category": "placeholder"
+            }
+          ]
+        },
+        {
+          "method": "run_tests",
+          "docstring": "Execute all test cases.",
+          "test_cases": [
+            {
+              "name": "Test run_tests",
+              "setup": "Create instance of TestRunner",
+              "action": "Call run_tests",
+              "expected": "Verify behavior",
+              "category": "placeholder"
+            }
+          ]
+        },
+        {
+          "method": "print_summary",
+          "docstring": "Print test execution summary.",
+          "test_cases": [
+            {
+              "name": "Test print_summary",
+              "setup": "Create instance of TestRunner",
+              "action": "Call print_summary",
+              "expected": "Verify behavior",
+              "category": "placeholder"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "class": "Calculator",
+      "docstring": "A calculator class with history tracking.",
+      "methods": [
+        {
+          "method": "add_to_history",
+          "docstring": "Add operation to history.\n\nArgs:\n    operation: Operation name\n    operands: List of operands\n    result: Result of operation",
+          "test_cases": [
+            {
+              "name": "Test add_to_history",
+              "setup": "Create instance of Calculator",
+              "action": "Call add_to_history",
+              "expected": "Verify behavior",
+              "category": "placeholder"
+            }
+          ]
+        },
+        {
+          "method": "get_history",
+          "docstring": "Return the operation history.",
+          "test_cases": [
+            {
+              "name": "Test get_history",
+              "setup": "Create instance of Calculator",
+              "action": "Call get_history",
+              "expected": "Verify behavior",
+              "category": "placeholder"
+            }
+          ]
+        },
+        {
+          "method": "clear_history",
+          "docstring": "Clear the operation history.",
+          "test_cases": [
+            {
+              "name": "Test clear_history",
+              "setup": "Create instance of Calculator",
+              "action": "Call clear_history",
+              "expected": "Verify behavior",
+              "category": "placeholder"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

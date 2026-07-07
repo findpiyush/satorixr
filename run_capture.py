@@ -8,7 +8,7 @@ def main():
     parser = argparse.ArgumentParser(description="Capture webpage interactive elements and screenshots for LLM test generation.")
     parser.add_argument("--url", default="https://try.satorixr.com/home", help="Target URL to capture")
     parser.add_argument("--name", default=None, help="Name of the output capture folder. Defaults to URL path segment.")
-    parser.add_argument("--state", default="login/state.json", help="Path to state.json login storage file")
+    parser.add_argument("--state", default="v0/state.json", help="Path to state.json login storage file")
     parser.add_argument("--width", type=int, default=1280, help="Viewport width (default: 1280)")
     parser.add_argument("--height", type=int, default=800, help="Viewport height (default: 800)")
     parser.add_argument("--headless", action="store_true", default=True, help="Run browser in headless mode (default: true)")

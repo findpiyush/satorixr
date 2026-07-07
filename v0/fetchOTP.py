@@ -12,6 +12,7 @@ def fetch_latest_otp(email_address, password, imap_server="imap.gmail.com"):
     Fetches the latest OTP from the given email inbox.
     """
     try:
+        # connect to imap server
         mail = imaplib.IMAP4_SSL(imap_server)
         mail.login(email_address, password)
         mail.select("inbox")
